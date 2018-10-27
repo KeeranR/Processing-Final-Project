@@ -1,0 +1,613 @@
+//Int to change the stages
+int stage;
+
+//Int to store how many windows are darkened
+int darkCount;
+
+//Int to store the number for the sky||for the sky to change colour
+int blueValue = 255;
+
+//Int for the suns colour value||the red colour
+int sunValueR = 255;
+//Int for the suns colour value||the green colour
+int sunValueG = 255;
+//Int for the suns colour value||the blue colour
+int sunValueB = 0;
+
+//Int to store the colour value of the windows
+int darkWindow = 0;
+
+//Int to make the moon crater
+int moonCrater = 0;
+
+//Int for the craters stroke transparency
+int craterStrokeTrans = 0;
+
+//Int for the text stroke transparency
+int textStrokeTrans = 0;
+
+//Int to store the number value of the moonXValue
+int moonXValue = 770;
+
+//Int for the windows red colour value
+int windowValueR=255;
+//Int for the windows green colour value
+int windowValueG=255;
+//Int for the windows blue colour value
+int windowValueB=255;
+
+//Int to store how many times you click
+int numMouseClicks=0;
+
+//Boolean to make the time go to night
+boolean turnToNight=false;
+
+//Boolean to make sure that sunToMoon is false
+boolean sunToMoon=false;
+
+//Boolean to make sure that craterMoon is equal to false
+boolean craterMoon=false;
+
+//Boolean to make sure that sunAndMoonMoving is false
+boolean sunAndMoonMoving=false;
+
+//Boolean to make sure that windowLighting is false
+boolean windowLighting=false;
+
+//Boolean to make sure that levelOne is false
+boolean levelOne=false;
+
+void setup()
+{
+  //The size of the screen
+  size(900, 800);
+
+  //The background colour
+  background(100);
+
+  //Rect mode is set to the center
+  rectMode(CORNER);
+
+  //Ellipse mode is set to the center
+  ellipseMode(CORNER);
+
+  //The fill is set to 255( which is white)
+  fill(255);
+
+  //The moving objects will be moving smooth
+  smooth();
+
+  //Frame rate is set to 10000 because it is laggy
+  frameRate=10000;
+}
+
+void draw()
+{
+  //If levelOne is equal to false
+  if (levelOne == false)
+  {
+    //The background will be the colour described below
+    background(0, 0, blueValue);
+
+    //And there will be skyscrapers at the locations giving below
+    makeSkyscraper(100, 397, 150, 400);
+    makeSkyscraper(400, 297, 150, 500);
+    makeSkyscraper(600, 347, 150, 450);
+
+    //If turnToNight is equal to true
+    if (turnToNight==true)
+    {
+      //The value for blueValue will decrease
+      blueValue--;
+    }
+
+    //If sunToMoon is equal to true
+    if (sunToMoon==true)
+    {
+      //The value of sunValueB will increase
+      sunValueB++;
+    }
+
+    //If sunValueB is greater or equal to 5
+    if (sunValueB>=5)
+    {
+      //The value for moonCrater will increase
+      moonCrater++;
+
+      //And the value for craterStrokeTrans will also increase
+      craterStrokeTrans++;
+    }
+
+    //If the b value gets to 150 
+    if (sunValueB>=150)
+    {
+      //Then the colour of b value will stop to make the moon a little bit yellow
+      sunValueB=150;
+
+      //The text size for the instructions
+      textSize(50);
+
+      //If the variable darkCount is 18, then text will appear
+      if ( darkCount < 18)
+      {
+        //Text to inform you to click the first building
+        text("Click The First Building", 200, 50, textStrokeTrans);
+      } else
+      {
+        //This text will appear saying that you won
+        text("Congratulations You Won!", 200, 50);
+      }
+
+      //This makes the transparency of the text increase
+      textStrokeTrans++;
+    }
+
+    //Fill colour for the Sun to change
+    fill(sunValueR, sunValueG, sunValueB);
+
+    //The Sun with the x and y location
+    ellipse(moonXValue, 50, 80, 80);
+
+    //Fill for the moon's colour
+    fill(128, 128, 128, moonCrater);
+
+    //If the moon is greater or equal to 50
+    if (moonCrater>=50)
+    {
+      //The stroke will increase to show the craters
+      stroke(0, craterStrokeTrans);
+    } else
+    {
+      //value for no stroke
+      noStroke();
+    }
+
+    //Ellipse for the craters to appear on the moon
+    ellipse(moonXValue+30, 60, 10, 10);
+
+    //The crater will appear at the location below
+    ellipse(moonXValue+70, 100, 10, 10);
+
+    //The other crater will appear at the location below
+    ellipse(moonXValue+20, 85, 10, 10);
+
+    //If sunAndMoonMoving equals true...
+    if ( sunAndMoonMoving==true)
+    {
+      //The moonXValue will increase
+      moonXValue++;
+    }
+
+    //If moonXValue is greater or equal to 910....
+    if (moonXValue>=910)
+    {
+      //The moon will teleport to the other side of the screen
+      moonXValue=-10;
+    }
+
+    /*
+    *I had to make two of them so then it could actually work.
+     *for some reason if i didnt have 2 then it wouldnt work
+     */
+
+    //If moonValueX is greater or equal to 910
+    if (moonXValue>=910)
+    {
+      //Then it is at 910
+      moonXValue=910;
+      /*
+      *it is actually to make the moon not move at soon as the code starts   
+       */
+    }
+
+    //If moonXValue is equal to 60 
+    if (moonXValue==60)
+    {
+      //This makes the moon stop moving.
+      sunAndMoonMoving=false;
+    }
+
+    //If windowLighting is equal to true
+    if (windowLighting==true)
+    {
+      //The colour of the windows will change colour
+      windowValueB--;
+    }
+  }
+}
+
+
+void makeSkyscraper(int x, int y, int w, int h)
+{
+  //If levelOne is equal to true
+  if (levelOne == true)
+  {
+
+    //The background will be 0 (which is black)
+    background(0);
+
+    //The text size will be 48
+    textSize(48);
+
+    //Text will appear saying to turn off all the lights
+    text("Turn Off All The Lights", 20, 40);
+
+    //And a rect will appear at this location
+    rect(x+60, y-138, 30, 150);
+  }
+
+  //Sets the stroke to 2
+  stroke(2);
+
+  //Sets the fill to 100
+  fill(100);
+
+  //Adds a rect to the location given below
+  rect(x+60, y-138, 30, 150);
+
+  //Adds a rect to...
+  rect(x, y, w, h);
+
+  //fills the colour to be ...
+  fill(windowValueR, windowValueG, windowValueB);
+
+  /*
+  *whoo boy here comes the long part for the locations
+   *of the window
+   */
+
+  //Adds a rect to...
+  rect(x+20, y+53, 18, 18);
+
+  //Adds a rect to...
+  rect(x+60, y+53, 18, 18);
+
+  //Adds a rect to...
+  rect(x+100, y+53, 18, 18);
+
+  //Adds a rect to...
+  rect(x+20, y+103, 18, 18);
+
+  //Adds a rect to...
+  rect(x+60, y+103, 18, 18);
+
+  //Adds a rect to...
+  rect(x+100, y+103, 18, 18);
+
+  //Adds a rect to...
+  rect(x+20, y+153, 18, 18);
+
+  //Adds a rect to...
+  rect(x+60, y+153, 18, 18);
+
+  //Adds a rect to...
+  rect(x+100, y+153, 18, 18);
+
+  //Adds a rect to...
+  rect(x+20, y+203, 18, 18);
+
+  //Adds a rect to...
+  rect(x+60, y+203, 18, 18);
+
+  //Adds a rect to...
+  rect(x+100, y+203, 18, 18);
+
+  //Adds a rect to...
+  rect(x+20, y+253, 18, 18);
+
+  //Adds a rect to...
+  rect(x+60, y+253, 18, 18);
+
+  //Adds a rect to...
+  rect(x+100, y+253, 18, 18);
+
+  //Adds a rect to...
+  rect(x+20, y+303, 18, 18);
+
+  //Adds a rect to...
+  rect(x+60, y+303, 18, 18);
+
+  //Adds a rect to...
+  rect(x+100, y+303, 18, 18);  
+  /*
+* Its done
+   */
+  //Sets the fill to...
+  fill(255);
+
+  //Adds a rect to the location given be
+  rect(x+58, y+h-45, 25, 45);
+}
+
+
+void mouseClicked()
+{
+  //If numMouseClicks is equal to 0
+  if (numMouseClicks == 0)
+  {
+    //turnToNight is equal to true
+    turnToNight=true;
+
+    //sunToMoon is equal to true
+    sunToMoon=true;
+
+    //craterMoon is equal to true
+    craterMoon=true;
+
+    //sunAndMoon is equal to true
+    sunAndMoonMoving = true;
+
+    //windowLighting is equal to true
+    windowLighting=true;
+
+    //numMouseClicks increases by 1
+    numMouseClicks++;
+  } else if ( numMouseClicks == 1 )
+  {
+    //if the mouse is clicked inbetween these guidlines...
+    if (mouseX>100 && mouseX<200 && mouseY>200 && mouseY<800)
+    {
+      //then level one is equal to true
+      levelOne=true;
+
+      //and it adds a skyscraper
+      makeSkyscraper(600, 347, 150, 450);
+    }
+    //numMouseClicks is increased by 1
+    numMouseClicks++;
+  } else if ( numMouseClicks==2 && levelOne==true)
+  {
+    //If the mouse is clicked in between these boundaries...
+    if (mouseX>=620 && mouseX<=638 && mouseY>=400 && mouseY<=418)
+    {
+      //Then the window will turn dark( hence the darkWindow )
+      fill(darkWindow);
+
+      //A new rect will appear at the location given below
+      rect(620, 400, 18, 18);
+
+      //The dark count increases by 1
+      darkCount++;
+    }
+
+    //If the mouse is clicked in between these locations...
+    if (mouseX>=660 && mouseX<=678 && mouseY>=400 && mouseY<=418)
+    {
+      //Then the fill will be darkWindow.
+      fill(darkWindow);
+
+      //And a rect will appear at this location given below
+      rect(660, 400, 18, 18);
+
+      //The dark count will increase will appear by 1
+      darkCount++;
+    }
+
+    //If the mouse is clicked in between these locations...
+    if (mouseX>=700 && mouseX<=718 && mouseY>=400 && mouseY<=418)
+    {
+      //The fill will be darkWindow
+      fill(darkWindow);
+
+      //And a rect will appear at the location given below
+      rect(700, 400, 18, 18);
+
+      //The dark count will increase by 1
+      darkCount++;
+    }
+
+    //If the mouse is clicked in between these locations given below
+    if (mouseX>=620 && mouseX<=638 && mouseY>=450 && mouseY<=468)
+    {
+      //The fill will be darkWindow
+      fill(darkWindow);
+
+      //A rect will appear at the location given below
+      rect(620, 450, 18, 18);
+
+      //the dark count will increase
+      darkCount++;
+    }
+
+    //If the mouse is clicked in between these locations...
+    if (mouseX>=660 && mouseX<=678 && mouseY>=450 && mouseY<=468)
+    {
+      //the fill will be darkWindow
+      fill(darkWindow);
+
+      //A rect will appear at the location given below
+      rect(660, 450, 18, 18);
+      ///420
+
+      //The dark count will increase
+      darkCount++;
+    }
+
+    //If the mouse is clicked in between these locations
+    if (mouseX>=700 && mouseX<=718 && mouseY>=450 && mouseY<=468)
+    {
+      //The fill will be darkWindow
+      fill(darkWindow);
+
+      //A rect will appear at the location given below
+      rect(700, 450, 18, 18);
+
+      //The dark count will increase
+      darkCount++;
+    }
+
+    //If the mouse is clicked in between these locations given below
+    if (mouseX>=620 && mouseX<=638 && mouseY>=500 && mouseY<=518)
+    {
+      //The fill will be set to darkWindow
+      fill(darkWindow);
+
+      //A rect will appear at the location given below
+      rect(620, 500, 18, 18);
+
+      //The dark count will increase
+      darkCount++;
+    }
+
+    //If the mouse is clicked in between these locations given below
+    if (mouseX>=660 && mouseX<=678 && mouseY>=500 && mouseY<=518)
+    {
+      //The fill for the window will be darkWindow
+      fill(darkWindow);
+
+      //A rect will appear at the location given below
+      rect(660, 500, 18, 18);
+
+      //And the dark count will increase by 1
+      darkCount++;
+    }
+
+    //If the mouse is clicked in between these locations given below
+    if (mouseX>=700 && mouseX<=718 && mouseY>=500 && mouseY<=518)
+    {
+      //The fill for the window will become darkWindow
+      fill(darkWindow);
+
+      //And a rect will appear at the location given below
+      rect(700, 500, 18, 18);
+
+      //And the dark count will increase by 1
+      darkCount++;
+    }
+
+    //If the mouse is clicked in betwen the location...
+    if (mouseX>=620 && mouseX<=638 && mouseY>=550 && mouseY<=568)
+    {
+      //The fill willl be darkWindow
+      fill(darkWindow);
+
+      //And a rect will appear at the location given below
+      rect(620, 550, 18, 18);
+
+      //And the dark count will increase by 1
+      darkCount++;
+    }
+
+    //If the mouse is clicked in betwen the location...
+    if (mouseX>=660 && mouseX<=678 && mouseY>=550 && mouseY<=568)
+    {
+      //The fill willl be darkWindow
+      fill(darkWindow);
+
+      //And a rect will appear at the location given below
+      rect(660, 550, 18, 18);
+
+      //And the dark count will increase by 1
+      darkCount++;
+    }
+
+    //If the mouse is clicked in betwen the location...
+    if (mouseX>=700 && mouseX<=718 && mouseY>=550 && mouseY<=568)
+    {
+
+      //The fill willl be darkWindow
+      fill(darkWindow);
+
+      //And a rect will appear at the location given below
+      rect(700, 550, 18, 18);
+
+      //And the dark count will increase by 1
+      darkCount++;
+    }
+
+    //If the mouse is clicked in betwen the location...
+    if (mouseX>=620 && mouseX<=638 && mouseY>=600 && mouseY<=618)
+    {
+      //The fill willl be darkWindow
+      fill(darkWindow);
+
+      //And a rect will appear at the location given below
+      rect(620, 600, 18, 18);
+
+      //And the dark count will increase by 1
+      darkCount++;
+    }
+
+    //If the mouse is clicked in betwen the location...
+    if (mouseX>=660 && mouseX<=678 && mouseY>=600 && mouseY<=618)
+    {
+      //The fill willl be darkWindow
+      fill(darkWindow);
+
+      //And a rect will appear at the location given below
+      rect(660, 600, 18, 18);
+
+      //And the dark count will increase by 1
+      darkCount++;
+    }
+
+    //If the mouse is clicked in betwen the location...
+    if (mouseX>=700 && mouseX<=718 && mouseY>=600 && mouseY<=618)
+    {
+      //The fill willl be darkWindow
+      fill(darkWindow);
+
+      //And a rect will appear at the location given below
+      rect(700, 600, 18, 18);
+
+      //And the dark count will increase by 1
+      darkCount++;
+    }
+
+    //If the mouse is clicked in betwen the location...
+    if (mouseX>=620 && mouseX<=638 && mouseY>=650 && mouseY<=668)
+    {
+      //The fill willl be darkWindow
+      fill(darkWindow);
+
+      //And a rect will appear at the location given below
+      rect(620, 650, 18, 18);
+
+      //And the dark count will increase by 1
+      darkCount++;
+    }
+
+    //If the mouse is clicked in betwen the location...
+    if (mouseX>=660 && mouseX<=678 && mouseY>=650 && mouseY<=668)
+    {
+      //The fill willl be darkWindow
+      fill(darkWindow);
+
+      //And a rect will appear at the location given below
+      rect(660, 650, 18, 18);
+
+      //And the dark count will increase by 1
+      darkCount++;
+    }
+
+    //If the mouse is clicked in betwen the location...
+    if (mouseX>=700 && mouseX<=718 && mouseY>=650 && mouseY<=668)
+    {
+      //The fill willl be darkWindow
+      fill(darkWindow);
+
+      //And a rect will appear at the location given below
+      rect(700, 650, 18, 18);
+
+      //And the dark count will increase by 1
+      darkCount++;
+    }
+
+    //If the dark count is equal to 18
+    if (darkCount==18)
+    {
+      //Then the stage will go to 0
+      stage=0;
+
+      //And levelOne will be false again
+      levelOne=false;
+    }
+
+    //If the stage is equal to 0 and levelOne is equal to false...
+    if (stage == 0 && levelOne == false)
+    {
+      //textStrokeTrans will be equal to 0
+      textStrokeTrans=0;
+    }
+  }
+}
